@@ -75,13 +75,12 @@ document.addEventListener('DOMContentLoaded', function () {
           const agreeEl = form.querySelector('[name="agree"]');
           const agree = agreeEl ? (agreeEl.checked ? 'yes' : 'no') : '';
           
-          const domain = window.location.hostname;
-          const pagePath = window.location.pathname + window.location.search;
+          const pagePath = window.location.href;
 
           const rawClientId = await waitForGAClientId(2000);
           const clientId = rawClientId || '';
 
-          const payload = { domain, name, email, message, agree, pagePath, clientId };
+          const payload = { name, email, message, agree, pagePath, clientId };
           console.log('payload ->', payload);
 
           await fetch(GOOGLE_SCRIPT_URL, {
