@@ -74,12 +74,14 @@ document.addEventListener('DOMContentLoaded', function () {
           const message = form.querySelector('[name="message"]')?.value || '';
           const agreeEl = form.querySelector('[name="agree"]');
           const agree = agreeEl ? (agreeEl.checked ? 'yes' : 'no') : '';
+          
+          const domain = window.location.hostname;
           const pagePath = window.location.pathname + window.location.search;
 
           const rawClientId = await waitForGAClientId(2000);
           const clientId = rawClientId || '';
 
-          const payload = { name, email, message, agree, pagePath, clientId };
+          const payload = { domain, name, email, message, agree, pagePath, clientId };
           console.log('payload ->', payload);
 
           await fetch(GOOGLE_SCRIPT_URL, {
@@ -96,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function () {
           );
           form.reset();
         } catch (err) {
-          console.error('Ошибка отправки', err);
+          console.error('Error sending', err);
           toggleLoading(form, false);
           showResponse(form, '<span class="form_text_sub">Error sending. Please try again later.</span>');
         }
