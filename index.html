@@ -412,7 +412,7 @@
 								<!-- -->
 								<div class="card__card card__medium card__white card__full-width" style="grid-column: span 2;">
 									<div class="contact-form__wrapper">
-										<p class="text__text"><b>100% Privacy.</b> Zero hard selling.</p>
+										<p class="text__text"><b>Zero hard selling.</b></p>
 										<div id="form-container">
 											<form id="contactForm" class="contact-form"
 												onsubmit="window.dataLayer.push({'event': 'shlp_form_send'});">
@@ -428,6 +428,16 @@
 													<label class="contact-form__label">Message <span class="contact-form__hint">(tell me about your business)</span></label>
 													<textarea class="contact-form__input contact-form__textarea" name="message" placeholder="e.g., We run a small legal firm (share your website)." required></textarea>
 												</div>
+												
+												<div class="contact-form__consent" id="consentField">
+													<label class="contact-form__check">
+														<input type="checkbox" name="agree" id="privacyConsent" value="yes" required aria-describedby="consentError consentNote">
+														<span>I agree to the <a href="https://shuvaloff.com/PrivacyPolicy" target="_blank" rel="noopener">Privacy Policy</a>.</span>
+													</label>
+													<p class="contact-form__error" id="consentError" role="alert" hidden>Please agree to the Privacy Policy to send your message.</p>
+													<p class="contact-form__note" id="consentNote">I'll reply to your message and may send a short follow-up about it. No newsletters, no promo emails.</p>
+												</div>
+												
 												<div id="response" style="text-align: center;"></div>
 												<div class="contact-form__submit">
 													<button type="submit" class="button__button button__primary button__cta-orange button__big"
@@ -511,6 +521,45 @@
 		if (footerYear) {
 			footerYear.textContent = new Date().getFullYear();}
 		</script>
+	
+	<script>
+	(function () {
+		var form = document.getElementById('contactForm');
+		var box = document.getElementById('privacyConsent');
+		var field = document.getElementById('consentField');
+		var error = document.getElementById('consentError');
+		if (!form || !box || !field || !error) return;
+
+		function showError() {
+			field.classList.add('contact-form__consent--invalid');
+			error.hidden = false;
+			box.setAttribute('aria-invalid', 'true');
+		}
+		function clearError() {
+			field.classList.remove('contact-form__consent--invalid');
+			error.hidden = true;
+			box.removeAttribute('aria-invalid');
+		}
+
+		box.addEventListener('invalid', function (e) {
+			e.preventDefault();
+			showError();
+			if (form.querySelector(':invalid') === box) box.focus();
+		});
+		box.addEventListener('change', function () {
+			if (box.checked) clearError();
+		});
+
+		form.addEventListener('submit', function (e) {
+			if (!box.checked) {
+				e.preventDefault();
+				e.stopImmediatePropagation();
+				showError();
+				box.focus();
+			}
+		}, true);
+	})();
+	</script>
 	
 	<script src="leadform.js" defer></script>
 	
