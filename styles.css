@@ -2416,12 +2416,6 @@ to {
     color: var(--color-red);
 }
 
-.contact-form__consent--invalid .contact-form__check {
-    outline: 2px solid var(--color-red);
-    outline-offset: 4px;
-    border-radius: 10px;
-}
-
 .contact-form__consent--invalid .contact-form__check input[type="checkbox"] {
     outline: 2px solid var(--color-red);
     outline-offset: 1px;
